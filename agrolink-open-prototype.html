@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroLink Open Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"]{--color-bg:#f7f6f2;--color-surface:#fbfbf9;--color-surface-2:#f3f0ec;--color-border:#d7d4cd;--color-text:#1f231f;--color-text-muted:#667066;--color-primary:#127a4a;--color-primary-hover:#0f653d;--color-secondary:#176e7c;--color-gold:#c19b2e;--shadow:0 18px 50px rgba(15,32,22,.08);--radius:22px}
+    [data-theme="dark"]{--color-bg:#111513;--color-surface:#171d19;--color-surface-2:#1d2420;--color-border:#2b332d;--color-text:#edf0ea;--color-text-muted:#98a398;--color-primary:#37b56c;--color-primary-hover:#2b9658;--color-secondary:#59a6b2;--color-gold:#d5bf70;--shadow:0 18px 50px rgba(0,0,0,.28);--radius:22px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:'Satoshi',sans-serif;background:var(--color-bg);color:var(--color-text)}a{text-decoration:none;color:inherit}button{font:inherit}img,svg{max-width:100%;display:block}
+    .app{display:grid;grid-template-columns:280px 1fr;min-height:100vh}.sidebar{background:var(--color-surface);border-right:1px solid var(--color-border);padding:24px;position:sticky;top:0;height:100vh}.brand{display:flex;gap:14px;align-items:center;margin-bottom:28px}.brand-mark{width:44px;height:44px}.brand h1{font-size:1.08rem;margin:0}.brand p{margin:2px 0 0;color:var(--color-text-muted);font-size:.9rem}.nav{display:grid;gap:10px}.nav button{border:1px solid transparent;background:transparent;padding:14px 16px;border-radius:16px;text-align:left;color:var(--color-text);cursor:pointer}.nav button.active,.nav button:hover{background:var(--color-surface-2);border-color:var(--color-border)}
+    .main{padding:26px}.topbar{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:22px}.search{flex:1;background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;padding:14px 16px;color:var(--color-text-muted)}.actions{display:flex;gap:10px}.btn{border:none;border-radius:16px;padding:12px 16px;cursor:pointer}.btn-primary{background:var(--color-primary);color:white}.btn-secondary{background:var(--color-surface);border:1px solid var(--color-border);color:var(--color-text)}
+    .hero{display:grid;grid-template-columns:1.3fr .9fr;gap:18px;margin-bottom:18px}.card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius);box-shadow:var(--shadow)}.card-pad{padding:22px}.hero-panel{position:relative;overflow:hidden}.hero-panel:before{content:'';position:absolute;inset:auto -50px -70px auto;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,var(--color-primary),transparent 65%);opacity:.16}.eyebrow{font-size:.8rem;text-transform:uppercase;letter-spacing:.18em;color:var(--color-text-muted)}.title{font-size:clamp(2rem,4vw,3.5rem);line-height:.95;margin:.4rem 0 1rem;font-weight:900;max-width:11ch}.lead{font-size:1.04rem;color:var(--color-text-muted);max-width:62ch}.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}.stat{padding:16px;border-radius:18px;background:var(--color-surface-2);border:1px solid var(--color-border)}.stat b{display:block;font-size:1.7rem;margin-bottom:6px}
+    .section{display:none}.section.active{display:block}.grid{display:grid;gap:18px}.grid-2{grid-template-columns:1.15fr .85fr}.grid-3{grid-template-columns:repeat(3,1fr)}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:12px 10px;border-bottom:1px solid var(--color-border);text-align:left;font-size:.95rem}.pill{display:inline-flex;align-items:center;gap:8px;background:rgba(55,181,108,.1);color:var(--color-primary);padding:8px 12px;border-radius:999px;font-size:.87rem;font-weight:700}.lot{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}.mini{padding:14px;border-radius:16px;background:var(--color-surface-2);border:1px solid var(--color-border)}.step{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--color-border)}.step:last-child{border-bottom:none}.dot{width:12px;height:12px;border-radius:50%;background:var(--color-primary);margin-top:6px;box-shadow:0 0 0 6px rgba(55,181,108,.12)}
+    .badge{font-size:.8rem;padding:6px 10px;border-radius:999px;background:rgba(89,166,178,.13);color:var(--color-secondary);display:inline-block}.progress{height:10px;background:var(--color-surface-2);border-radius:999px;overflow:hidden}.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--color-primary),var(--color-gold))}
+    .theme-toggle{width:46px;height:46px;border-radius:14px;border:1px solid var(--color-border);background:var(--color-surface);cursor:pointer}
+    @media (max-width:1000px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.hero,.grid-2,.grid-3,.lot,.stat-grid{grid-template-columns:1fr}.main{padding:18px}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" r="46" stroke="currentColor" stroke-width="4" opacity="0.18"/><path d="M60 23C46 36 38 48 38 61c0 12 10 22 22 22s22-10 22-22c0-13-8-25-22-38Z" fill="url(#g1)"/><path d="M60 37v46" stroke="white" stroke-width="4" stroke-linecap="round"/><path d="M60 61c-10 0-17-5-21-12" stroke="white" stroke-width="4" stroke-linecap="round"/><path d="M60 70c8 0 15 4 20 10" stroke="white" stroke-width="4" stroke-linecap="round"/><defs><linearGradient id="g1" x1="38" y1="23" x2="90" y2="90"><stop stop-color="#37b56c"/><stop offset="1" stop-color="#d5bf70"/></linearGradient></defs></svg>
+        <div><h1>AgroLink Open</h1><p>Trade infrastructure prototype</p></div>
+      </div>
+      <nav class="nav">
+        <button class="active" data-target="dashboard">Overview</button>
+        <button data-target="producers">Producer registry</button>
+        <button data-target="lots">Traceability</button>
+        <button data-target="buyers">Buyer sourcing</button>
+        <button data-target="compliance">Compliance vault</button>
+      </nav>
+      <div style="margin-top:24px" class="card card-pad">
+        <div class="eyebrow">Open core</div>
+        <p style="margin:.6rem 0 0;color:var(--color-text-muted)">Open onboarding, open records, paid verification, financing and analytics.</p>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="search">Search lots, producers, buyers, certificates or shipment IDs</div>
+        <div class="actions">
+          <button class="btn btn-secondary">Export dossier</button>
+          <button class="theme-toggle" aria-label="Toggle theme" id="themeToggle">◐</button>
+          <button class="btn btn-primary">New RFQ</button>
+        </div>
+      </div>
+
+      <section id="dashboard" class="section active">
+        <div class="hero">
+          <div class="card card-pad hero-panel">
+            <div class="eyebrow">Africa ↔ EU trade rail</div>
+            <h2 class="title">Traceable sourcing with compliance built in</h2>
+            <p class="lead">Prototype workflow for African producers, cooperatives, exporters and EU buyers. The interface demonstrates how AgroLink Open can turn fragmented trade paperwork into a searchable, auditable and service-enabled digital corridor.</p>
+            <div class="stat-grid">
+              <div class="stat"><b>128</b><span>Active producers</span></div>
+              <div class="stat"><b>42</b><span>Verified lots</span></div>
+              <div class="stat"><b>17</b><span>EU buyers</span></div>
+              <div class="stat"><b>94%</b><span>Dossier completeness</span></div>
+            </div>
+          </div>
+          <div class="card card-pad">
+            <span class="pill">Revenue model live</span>
+            <div style="margin-top:18px" class="grid">
+              <div class="mini"><b style="font-size:1.2rem">Compliance packs</b><div style="color:var(--color-text-muted);margin-top:6px">Per-lot due diligence export</div></div>
+              <div class="mini"><b style="font-size:1.2rem">Escrow + finance</b><div style="color:var(--color-text-muted);margin-top:6px">Embedded services for cross-border trade</div></div>
+              <div class="mini"><b style="font-size:1.2rem">Analytics API</b><div style="color:var(--color-text-muted);margin-top:6px">Supply insight for institutions and buyers</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-2">
+          <div class="card card-pad">
+            <div class="eyebrow">Pipeline status</div>
+            <div class="step"><div class="dot"></div><div><b>Onboarding</b><div style="color:var(--color-text-muted)">Cooperative submits farmer roster, geolocation and crop profile</div></div></div>
+            <div class="step"><div class="dot"></div><div><b>Verification</b><div style="color:var(--color-text-muted)">Certificates, lab tests and quality records checked by partners</div></div></div>
+            <div class="step"><div class="dot"></div><div><b>Procurement</b><div style="color:var(--color-text-muted)">EU buyer filters by origin, crop, certification and readiness score</div></div></div>
+            <div class="step"><div class="dot"></div><div><b>Fulfilment</b><div style="color:var(--color-text-muted)">Shipment dossier and chain of custody exported in one click</div></div></div>
+          </div>
+          <div class="card card-pad">
+            <div class="eyebrow">Readiness snapshot</div>
+            <div style="margin:14px 0 8px;display:flex;justify-content:space-between"><span>Documentation</span><span>96%</span></div><div class="progress"><span style="width:96%"></span></div>
+            <div style="margin:14px 0 8px;display:flex;justify-content:space-between"><span>Traceability coverage</span><span>89%</span></div><div class="progress"><span style="width:89%"></span></div>
+            <div style="margin:14px 0 8px;display:flex;justify-content:space-between"><span>Certification validity</span><span>92%</span></div><div class="progress"><span style="width:92%"></span></div>
+            <div style="margin:14px 0 8px;display:flex;justify-content:space-between"><span>Buyer match score</span><span>84%</span></div><div class="progress"><span style="width:84%"></span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="producers" class="section">
+        <div class="card card-pad">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap"><div><div class="eyebrow">Producer registry</div><h2 style="margin:.4rem 0 0;font-size:2rem">Verified supply base</h2></div><span class="badge">Open onboarding, verified add-ons</span></div>
+          <table class="table" style="margin-top:18px">
+            <thead><tr><th>Producer</th><th>Country</th><th>Crop</th><th>Status</th><th>Services</th></tr></thead>
+            <tbody>
+              <tr><td>Green Valley Cooperative</td><td>Ghana</td><td>Cocoa</td><td>Verified</td><td>Dossier + escrow</td></tr>
+              <tr><td>Kilimani Avocado Union</td><td>Kenya</td><td>Avocado</td><td>Pending lab update</td><td>Certification support</td></tr>
+              <tr><td>Sahel Sesame Cluster</td><td>Nigeria</td><td>Sesame</td><td>Verified</td><td>Buyer matching</td></tr>
+              <tr><td>Highland Coffee Group</td><td>Rwanda</td><td>Coffee</td><td>Verified</td><td>Trade finance referral</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="lots" class="section">
+        <div class="card card-pad">
+          <div class="eyebrow">Lot traceability</div><h2 style="margin:.4rem 0 1rem;font-size:2rem">Shipment-ready batch history</h2>
+          <div class="lot">
+            <div class="mini"><b>Lot ID</b><div style="color:var(--color-text-muted);margin-top:6px">GH-COC-240031</div></div>
+            <div class="mini"><b>Origin</b><div style="color:var(--color-text-muted);margin-top:6px">Ashanti, Ghana</div></div>
+            <div class="mini"><b>Volume</b><div style="color:var(--color-text-muted);margin-top:6px">18.4 MT</div></div>
+            <div class="mini"><b>Status</b><div style="color:var(--color-text-muted);margin-top:6px">Ready for buyer review</div></div>
+          </div>
+          <div class="grid grid-2" style="margin-top:18px">
+            <div class="mini"><b>Chain of custody</b><p style="color:var(--color-text-muted)">Farmer collection → coop warehouse → quality inspection → export consolidation → port dispatch</p></div>
+            <div class="mini"><b>Evidence attached</b><p style="color:var(--color-text-muted)">Geo-tagged farm data, warehouse receipt, moisture test, pesticide residue lab result, invoice draft</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="buyers" class="section">
+        <div class="grid grid-2">
+          <div class="card card-pad">
+            <div class="eyebrow">Buyer sourcing</div><h2 style="margin:.4rem 0 1rem;font-size:2rem">Search verified African supply</h2>
+            <div class="mini" style="margin-bottom:14px"><b>Filters</b><p style="color:var(--color-text-muted)">Crop, country, certification, incoterm, delivery month, minimum volume, dossier score</p></div>
+            <div class="mini"><b>RFQ workflow</b><p style="color:var(--color-text-muted)">Issue request, compare verified offers, negotiate digitally, lock service add-ons before shipment</p></div>
+          </div>
+          <div class="card card-pad">
+            <div class="eyebrow">Matched offer</div><h3 style="font-size:1.4rem;margin:.5rem 0">Organic sesame, Nigeria</h3>
+            <p style="color:var(--color-text-muted)">3 cooperatives available, 26 MT aggregated, export window in 21 days, buyer dossier score 91/100.</p>
+            <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap"><span class="pill">Traceability complete</span><span class="pill">Lab verified</span><span class="pill">Finance eligible</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="compliance" class="section">
+        <div class="card card-pad">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap"><div><div class="eyebrow">Compliance vault</div><h2 style="margin:.4rem 0 0;font-size:2rem">Reusable trust documents</h2></div><button class="btn btn-primary">Generate EU dossier</button></div>
+          <div class="grid grid-3" style="margin-top:18px">
+            <div class="mini"><b>Certificates</b><p style="color:var(--color-text-muted)">Organic, phytosanitary, fair trade, exporter license</p></div>
+            <div class="mini"><b>Quality evidence</b><p style="color:var(--color-text-muted)">Lab test files, inspection checklists, lot photos, warehouse readings</p></div>
+            <div class="mini"><b>Due diligence pack</b><p style="color:var(--color-text-muted)">Mapped origin, operator IDs, shipment docs, audit log, risk notes</p></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+    const buttons=[...document.querySelectorAll('.nav button')];
+    const sections=[...document.querySelectorAll('.section')];
+    buttons.forEach(btn=>btn.addEventListener('click',()=>{buttons.forEach(b=>b.classList.remove('active'));sections.forEach(s=>s.classList.remove('active'));btn.classList.add('active');document.getElementById(btn.dataset.target).classList.add('active')}));
+    const root=document.documentElement;let theme='dark';root.setAttribute('data-theme',theme);document.getElementById('themeToggle').addEventListener('click',()=>{theme=theme==='dark'?'light':'dark';root.setAttribute('data-theme',theme)});
+  </script>
+</body>
+</html>
